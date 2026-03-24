@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unique Registration Form</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff6a00, #ee0979);
+        background-size: 400% 400%;
+        animation: gradientBG 10s ease infinite;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .form-container {
+        width: 380px;
+        padding: 40px;
+        border-radius: 20px;
+        backdrop-filter: blur(15px);
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+        color: #fff;
+      }
+
+      .form-container h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 600;
+        letter-spacing: 1px;
+      }
+
+      .input-group {
+        position: relative;
+        margin-bottom: 30px;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 12px 10px;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+        outline: none;
+        color: #fff;
+        font-size: 15px;
+      }
+
+      .input-group label {
+        position: absolute;
+        top: 12px;
+        left: 10px;
+        color: rgba(255, 255, 255, 0.7);
+        pointer-events: none;
+        transition: 0.3s;
+      }
+
+      .input-group input:focus ~ label,
+      .input-group input:valid ~ label {
+        top: -10px;
+        left: 5px;
+        font-size: 12px;
+        color: #fff;
+      }
+
+      .input-group input:focus {
+        border-bottom: 2px solid #fff;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 30px;
+        background: #fff;
+        color: #2575fc;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .btn:hover {
+        background: #2575fc;
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .footer-text {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+      }
+
+      .footer-text a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .footer-text a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="form-container">
+      <h2>Create Account</h2>
+      <form>
+        <div class="input-group">
+          <input type="text" required />
+          <label>Full Name</label>
+        </div>
+
+        <div class="input-group">
+          <input type="email" required />
+          <label>Email Address</label>
+        </div>
+
+        <div class="input-group">
+          <input type="password" required />
+          <label>Password</label>
+        </div>
+
+        <div class="input-group">
+          <input type="password" required />
+          <label>Confirm Password</label>
+        </div>
+
+        <button type="submit" class="btn">Register</button>
+
+        <div class="footer-text">
+          Already have an account? <a href="#">Login</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <p>Lorem ipsum dolor sit amet. 0000</p>
+  </body>
+  <script>
+    document.addEventListener("copy", (event) => {
+      const selectedData = window.getSelection().toString();
+      event.clipboardData.setData("text/plain", "please dont copy");
+      event.preventDefault();
+    });
+  </script>
+</html>

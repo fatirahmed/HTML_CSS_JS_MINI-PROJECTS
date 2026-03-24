@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glow Cursor Effect</title>
+  <style>
+    body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #121212;
+  color: white;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.content {
+  text-align: center;
+}
+
+h1, p {
+  transition: filter 0.3s ease, color 0.3s ease;
+}
+
+#cursor {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  border-radius: 50%;
+  /* background: radial-gradient(circle, #00ffff 0%, #00ffff 70%); */
+  
+  pointer-events: none;
+  mix-blend-mode: lighten;
+  /* box-shadow: 0 0 30px rgba(255, 255, 255, 0.7); */
+  box-shadow: 0 0 50px #00ffff,
+                0 0 100px #00ffff,
+                0 0 200px #00ffff;
+                border-color: white;
+  transition: width 0.2s, height 0.2s, box-shadow 0.2s;
+}
+
+.bright{
+  filter: brightness(90%);
+  /* background-color: #00ffff ; */
+    text-shadow: 0 0 10px #00ffff,
+                0 0 30px #00ffff,
+                0 0 10px #00ffff;
+
+  border-color: white;
+ }
+.btn button{
+    position:absolute;
+    height: 50px;
+    width: 150px;
+    border-radius: 20px;
+    background-color: 	#40E0D0;
+    margin-left: 250px;
+    margin-top: -50px;
+    transition: all 0.5s ease;
+
+}
+.btn button:hover{
+    background-color: #00ffff ;
+    box-shadow: 0 0 10px #00ffff,
+                0 0 30px #00ffff,
+                0 0 60px #00ffff;
+  border-color: white;
+}
+
+  </style>
+</head>
+
+
+<body>
+  <div class="content">
+    <h1>Hover over me!</h1>
+    <p>This text will brighten when the glow passes over it.</p>
+  </div>
+  <div id="cursor"></div>
+  <div class="btn">
+
+    <button>Button</button>
+  </div>
+</body>
+
+
+
+
+  <script>
+    const cursor = document.getElementById('cursor');
+const elementsToBrighten = document.querySelectorAll('h1, p');
+
+// Move the glowing cursor with the mouse
+document.addEventListener('mousemove', (e) => {
+  cursor.style.top = `${e.pageY - 10}px`;
+  cursor.style.left = `${e.pageX - 10}px`;
+});
+
+// Brighten elements when the glow cursor is over them
+document.addEventListener('mouseover', (e) => {
+  if (elementsToBrighten) {
+    elementsToBrighten.forEach((element) => {
+      if (element.contains(e.target)) {
+        element.classList.add('bright');
+      }
+    });
+  }
+});
+
+document.addEventListener('mouseout', (e) => {
+  elementsToBrighten.forEach((element) => {
+    element.classList.remove('bright');
+  });
+});
+
+  </script>
+</html>

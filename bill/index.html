@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GEMS TECH Billing System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>GEMS TECH - Course Billing System</h1>
+
+    <label for="clientName">Client Name:</label>
+    <input type="text" id="clientName" placeholder="Enter client name" required>
+
+    <label for="course">Select Courses:</label>
+    <select id="course" multiple>
+      <option value="WEB DEVELOPMENT">Web Development</option>
+      <option value="APP DEVELOPMENT">App Development</option>
+      <option value="GAME DEVELOPMENT">Game Development</option>
+      <option value="GRAPHIC DESIGN">Graphic Design</option>
+      <option value="UX/UI DESIGN">UX/UI Design</option>
+      <option value="3D-ANIMATION">3D Animation</option>
+      <option value="PYTHON DEVELOPMENT">Python Development</option>
+      <option value="PHP DEVELOPMENT">PHP Development</option>
+    </select>
+
+    <label for="customPrice">Custom Price (PKR):</label>
+    <input type="number" id="customPrice" placeholder="e.g., 5000">
+
+    <button onclick="generateBill()">Generate & Save Bill</button>
+
+    <div id="output"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

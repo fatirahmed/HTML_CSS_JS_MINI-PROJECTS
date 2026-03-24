@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #121212;
+  cursor: none; /* Hide the default cursor */
+}
+
+.cursor-glow {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 0, 0.8);
+  box-shadow: 0 0 20px 10px rgba(255, 255, 0, 0.6);
+  pointer-events: none; /* Prevent it from interfering with mouse interactions */
+  transition: transform 0.1s ease-out;
+}

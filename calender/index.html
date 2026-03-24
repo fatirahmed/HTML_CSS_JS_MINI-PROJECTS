@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar App</title>
+    <script src="https://kit.fontawesome.com/02280d45a5.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button id="prev-month">Previous</button>
+            <h2 id="month-year"></h2>
+            <button id="next-month">Next</button>
+        </div>
+        <!-- Days of the week -->
+        <div class="calendar-days">
+            <div class="day-name">Sun</div>
+            <div class="day-name">Mon</div>
+            <div class="day-name">Tue</div>
+            <div class="day-name">Wed</div>
+            <div class="day-name">Thu</div>
+            <div class="day-name">Fri</div>
+            <div class="day-name">Sat</div>
+        </div>
+        <div class="calendar" id="calendar"></div>
+        <div class="count-container">
+            <div class="blocks">
+
+                <p><i class="fa-solid red fa-square"></i>Red Blocks: <span id="red-count">0</span></p>
+                <p><i class="fa-solid blue fa-square"></i> Blue Blocks: <span id="blue-count">0</span></p>
+            </div>
+            <div class="total">
+                <p>Total Blocks: <span id="Total-count">0</span></p>
+                <p>Total Payment: <span id="Total-pay">0</span></p>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

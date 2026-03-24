@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Light / Dark Mode Toggle</title>
+    <style>
+      :root {
+        --bg-color: #ffffff;
+        --text-color: #222222;
+        --card-bg: #f2f2f2;
+        --btn-bg: #222222;
+        --btn-text: #ffffff;
+      }
+
+      body.dark {
+        --bg-color: #121212;
+        --text-color: #eaeaea;
+        --card-bg: #1e1e1e;
+        --btn-bg: #ffffff;
+        --btn-text: #121212;
+      }
+
+      * {
+        box-sizing: border-box;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont;
+      }
+
+      .card {
+        background: var(--card-bg);
+        padding: 40px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        width: 320px;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      button {
+        padding: 12px 30px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background-color: var(--btn-bg);
+        color: var(--btn-text);
+        font-weight: bold;
+      }
+
+      button:hover {
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Theme Toggle</h1>
+      <p>Click the button to switch theme</p>
+      <button id="toggleTheme">Toggle Dark Mode</button>
+    </div>
+
+    <script>
+      const toggleBtn = document.getElementById("toggleTheme");
+      const body = document.body;
+
+      // Load saved theme
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        body.classList.add("dark");
+      }
+
+      toggleBtn.addEventListener("click", () => {
+        body.classList.toggle("dark");
+
+        const theme = body.classList.contains("dark") ? "dark" : "light";
+        localStorage.setItem("theme", theme);
+      });
+    </script>
+  </body>
+</html>

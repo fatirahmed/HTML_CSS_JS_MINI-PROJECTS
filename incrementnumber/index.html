@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auto Increment on Scroll</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      .stats-section {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        padding: 100px 0;
+        background: #f4f4f4;
+      }
+
+      .stat-box {
+        text-align: center;
+      }
+
+      .counter {
+        font-size: 50px;
+        font-weight: bold;
+        color: #2b7a78;
+      }
+      .main {
+        height: 300vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main"></div>
+    <section class="stats-section">
+      <div class="stat-box">
+        <h2 class="counter" data-target="150">0</h2>
+        <p>Projects Completed</p>
+      </div>
+
+      <div class="stat-box">
+        <h2 class="counter" data-target="500">0</h2>
+        <p>Happy Students</p>
+      </div>
+
+      <div class="stat-box">
+        <h2 class="counter" data-target="1200">0</h2>
+        <p>Lines of Code</p>
+      </div>
+    </section>
+
+    <script>
+      const counters = document.querySelectorAll(".counter");
+      let started = false; // ensures animation runs only once
+
+      function startCounting() {
+        if (
+          !started &&
+          window.scrollY + window.innerHeight >=
+            document.querySelector(".stats-section").offsetTop
+        ) {
+          counters.forEach((counter) => {
+            const target = +counter.getAttribute("data-target");
+            const speed = 50; // smaller = faster
+
+            const updateCounter = () => {
+              const current = +counter.innerText;
+              const increment = target / 100;
+
+              if (current < target) {
+                counter.innerText = Math.ceil(current + increment);
+                setTimeout(updateCounter, 20);
+              } else {
+                counter.innerText = target;
+              }
+            };
+
+            updateCounter();
+          });
+
+          started = true;
+        }
+      }
+
+      window.addEventListener("scroll", startCounting);
+    </script>
+  </body>
+</html>

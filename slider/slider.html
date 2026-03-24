@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Basic Slider – HTML/CSS/JS</title>
+    <style>
+      /* --- Base reset --- */
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+      }
+
+      /* --- Slider container --- */
+      .slider {
+        position: relative;
+        max-width: 900px; /* change width if you like */
+        aspect-ratio: 16/9; /* keeps a nice responsive height */
+        margin: 24px auto;
+        overflow: hidden;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        background: #000; /* seen during lazy image load */
+      }
+
+      /* --- Slides track --- */
+      .slides {
+        display: flex;
+        height: 100%;
+        transition: transform 400ms ease-in-out;
+        will-change: transform;
+      }
+
+      .slide {
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+        user-select: none;
+      }
+
+      .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block; /* remove inline-gap */
+        pointer-events: none; /* smoother swipes */
+      }
+
+      /* --- Arrows --- */
+      .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 10px 14px;
+        background: rgba(0, 0, 0, 0.45);
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+        backdrop-filter: blur(6px);
+      }
+      .arrow:hover {
+        background: rgba(0, 0, 0, 0.6);
+      }
+      .arrow:active {
+        transform: translateY(-50%) scale(0.98);
+      }
+      .arrow.prev {
+        left: 10px;
+      }
+      .arrow.next {
+        right: 10px;
+      }
+
+      /* --- Dots --- */
+      .dots {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 10px;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+        padding: 0 10px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.55);
+        border: 0;
+        cursor: pointer;
+      }
+
+      .dot.active {
+        background: #fff;
+      }
+
+      /* --- Accessibility helpers for focus --- */
+      .arrow:focus,
+      .dot:focus {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slider" id="slider">
+      <div class="slides">
+        <!-- Replace image src with your own -->
+        <div class="slide">
+          <img
+            loading="lazy"
+            src="/buildings.jpg"
+            alt="Slide 1"
+          />
+        </div>
+        <div class="slide">
+          <img
+            loading="lazy"
+            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop"
+            alt="Slide 2"
+          />
+        </div>
+        <div class="slide">
+          <img
+            loading="lazy"
+            src="/hero-bg.jpg"
+            alt="Slide 3"
+          />
+        </div>
+      </div>
+
+      <button class="arrow prev" aria-label="Previous slide">‹</button>
+      <button class="arrow next" aria-label="Next slide">›</button>
+
+      <div class="dots" aria-label="Slide indicators"></div>
+    </div>
+
+    <script>
+      (function () {
+        const slider = document.getElementById("slider");
+        const track = slider.querySelector(".slides");
+        const slides = Array.from(slider.querySelectorAll(".slide"));
+        const prevBtn = slider.querySelector(".prev");
+        const nextBtn = slider.querySelector(".next");
+        const dotsWrap = slider.querySelector(".dots");
+
+        const AUTOPLAY_MS = 3000; // change speed
+        let index = 0;
+        let timer = null;
+        let isPointerDown = false;
+        let startX = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+ 
+        // Build dots
+        slides.forEach((_, i) => {
+          const b = document.createElement("button");
+          b.className = "dot" + (i === 0 ? " active" : "");
+          b.setAttribute("aria-label", `Go to slide ${i + 1}`);
+          b.addEventListener("click", () => goTo(i));
+          dotsWrap.appendChild(b);
+        });
+
+        const dots = Array.from(dotsWrap.children);
+
+        function updateUI() {
+          track.style.transform = `translateX(-${index * 100}%)`;
+          dots.forEach((d, i) => d.classList.toggle("active", i === index));
+        }
+
+        function goTo(i) {
+          index = (i + slides.length) % slides.length;
+          updateUI();
+        }
+
+        function next() {
+          goTo(index + 1);
+        }
+        function prev() {
+          goTo(index - 1);
+        }
+
+        // Autoplay
+        function startAutoplay() {
+          stopAutoplay();
+          timer = setInterval(next, AUTOPLAY_MS);
+        }
+        function stopAutoplay() {
+          if (timer) clearInterval(timer);
+          timer = null;
+        }
+
+        // Hover pause
+        slider.addEventListener("mouseenter", stopAutoplay);
+        slider.addEventListener("mouseleave", startAutoplay);
+
+        // Buttons
+        nextBtn.addEventListener("click", next);
+        prevBtn.addEventListener("click", prev);
+
+        // Keyboard (when slider is focused in tab order)
+        slider.tabIndex = 0;
+        slider.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowRight") next();
+          else if (e.key === "ArrowLeft") prev();
+        });
+
+        // Touch/Mouse swipe
+        const pointerDown = (clientX) => {
+          isPointerDown = true;
+          startX = clientX;
+          stopAutoplay();
+          track.style.transition = "none";
+          prevTranslate = -index * slider.clientWidth;
+        };
+        const pointerMove = (clientX) => {
+          if (!isPointerDown) return;
+          const dx = clientX - startX;
+          currentTranslate = prevTranslate + dx;
+          track.style.transform = `translateX(${currentTranslate}px)`;
+        };
+        const pointerUp = () => {
+          if (!isPointerDown) return;
+          isPointerDown = false;
+          track.style.transition = ""; // restore transition
+          const movedBy = currentTranslate - prevTranslate;
+          const threshold = slider.clientWidth * 0.2;
+          if (movedBy < -threshold) next();
+          else if (movedBy > threshold) prev();
+          else updateUI();
+          startAutoplay();
+        };
+
+        // Mouse
+        track.addEventListener("mousedown", (e) => pointerDown(e.clientX));
+        window.addEventListener("mousemove", (e) => pointerMove(e.clientX));
+        window.addEventListener("mouseup", pointerUp);
+
+        // Touch
+        track.addEventListener(
+          "touchstart",
+          (e) => pointerDown(e.touches[0].clientX),
+          { passive: true }
+        );
+        track.addEventListener(
+          "touchmove",
+          (e) => pointerMove(e.touches[0].clientX),
+          { passive: true }
+        );
+        track.addEventListener("touchend", pointerUp);
+
+        // Prevent image drag ghost
+        slides.forEach((s) =>
+          s.addEventListener("dragstart", (e) => e.preventDefault())
+        );
+
+        // Init
+        updateUI();
+        startAutoplay();
+
+        // Handle resize to keep swipes consistent
+        window.addEventListener("resize", () => updateUI());
+      })();
+    </script>
+  </body>
+</html>

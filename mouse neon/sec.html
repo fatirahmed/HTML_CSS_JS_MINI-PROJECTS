@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursor Glow Effect</title>
+  <style>
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #121212;
+  cursor: none; /* Hide the default cursor */
+}
+
+.cursor-glow {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 0, 0.3);
+  box-shadow: 0 0 30px 15px rgba(255, 255, 0, 0.6);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.cursor {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #fff;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+  </style>
+</head>
+<body>
+  <div class="cursor-glow"></div>
+  <div class="cursor"></div>
+  
+</body>
+<script>
+document.addEventListener('mousemove', (event) => {
+  const glow = document.querySelector('.cursor-glow');
+  const cursor = document.querySelector('.cursor');
+  const { clientX: x, clientY: y } = event;
+
+  // Move the glow and cursor elements to the cursor position
+  glow.style.transform = `translate(${x}px, ${y}px)`;
+  cursor.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+</script>
+</html>
